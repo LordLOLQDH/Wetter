@@ -1,5 +1,7 @@
 const apiKey = "e1a724f1a23f76afc358559c1649c5dd";
 
+let darkMode = true;
+
 async function getWeather() {
 
   const city = document.getElementById("city").value;
@@ -8,6 +10,8 @@ async function getWeather() {
     alert("Bitte Stadt eingeben");
     return;
   }
+
+  document.getElementById('statusText').innerText = 'Lade Wetterdaten...';
 
   const url =
   `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=de`;
@@ -19,8 +23,13 @@ async function getWeather() {
     document.getElementById("weather").innerHTML = `
       <h2>❌ Stadt nicht gefunden</h2>
     `;
+
+    document.getElementById('statusText').innerText = 'Fehler beim Laden';
+
     return;
   }
+
+  document.getElementById('statusText').innerText = 'Wetterdaten erfolgreich geladen';
 
   const weatherMain = data.weather[0].main;
 
@@ -57,8 +66,41 @@ async function getWeather() {
         <div class="value">${Math.round(data.main.feels_like)}°</div>
       </div>
 
+      <div class="stat">
+        <div class="label">📈 Max</div>
+        <div class="value">${Math.round(data.main.temp_max)}°</div>
+      </div>
+
+      <div class="stat">
+        <div class="label">📉 Min</div>
+        <div class="value">${Math.round(data.main.temp_min)}°</div>
+      </div>
+
+      <div class="stat">
+        <div class="label">🌍 Land</div>
+        <div class="value">${data.sys.country}</div>
+      </div>
+
     </div>
   `;
+}
+
+function setCity(city) {
+  document.getElementById('city').value = city;
+  getWeather();
+}
+
+function toggleTheme() {
+
+  darkMode = !darkMode;
+
+  if(darkMode) {
+    document.body.style.background = '#030712';
+  }
+
+  else {
+    document.body.style.background = '#94a3b8';
+  }
 }
 
 function changeBackground(weather) {
@@ -67,28 +109,39 @@ function changeBackground(weather) {
 
   if(weather.includes('Cloud')) {
     bg.style.background = `
-      radial-gradient(circle at top left, #475569, transparent 30%),
-      radial-gradient(circle at bottom right, #334155, transparent 30%),
+      radial-gradient(circle at top left, #64748b, transparent 25%),
+      radial-gradient(circle at bottom right, #334155, transparent 25%),
       #0f172a
     `;
   }
 
   else if(weather.includes('Rain')) {
     bg.style.background = `
-      radial-gradient(circle at top left, #0ea5e9, transparent 30%),
-      radial-gradient(circle at bottom right, #1d4ed8, transparent 30%),
+      radial-gradient(circle at top left, #0ea5e9, transparent 25%),
+      radial-gradient(circle at bottom right, #2563eb, transparent 25%),
       #020617
     `;
   }
 
   else if(weather.includes('Clear')) {
     bg.style.background = `
-      radial-gradient(circle at top left, #f59e0b, transparent 30%),
-      radial-gradient(circle at bottom right, #f97316, transparent 30%),
+      radial-gradient(circle at top left, #f59e0b, transparent 25%),
+      radial-gradient(circle at bottom right, #f97316, transparent 25%),
       #1e293b
     `;
   }
 }
+
+function updateClock() {
+
+  const now = new Date();
+
+  document.getElementById('clock').innerText =
+  now.toLocaleTimeString('de-DE');
+}
+
+setInterval(updateClock, 1000);
+updateClock();
 
 getWeatherByLocation();
 
