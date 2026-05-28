@@ -8,8 +8,10 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 30px 0;
   font-family: Arial, sans-serif;
   background: #030712;
   color: white;
@@ -28,48 +30,23 @@ body {
 }
 
 @keyframes moveBg {
-  0% {
-    transform: scale(1) translateY(0px);
-  }
-
-  100% {
-    transform: scale(1.2) translateY(-20px);
-  }
+  0% { transform: scale(1) translateY(0px); }
+  100% { transform: scale(1.2) translateY(-20px); }
 }
 
 .app {
   position: relative;
   width: 430px;
   padding: 35px;
-
   background: rgba(255,255,255,0.12);
-
   border: 1px solid rgba(255,255,255,0.25);
   border-top: 1px solid rgba(255,255,255,0.4);
   border-left: 1px solid rgba(255,255,255,0.4);
-
   backdrop-filter: blur(35px) saturate(180%);
   -webkit-backdrop-filter: blur(35px) saturate(180%);
-
   border-radius: 35px;
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.45),
-    inset 0 1px 1px rgba(255,255,255,0.2);
-
-  overflow: hidden;
-}
-
-.app::before {
-  content: "";
-  position: absolute;
-  top: -100px;
-  right: -100px;
-  width: 220px;
-  height: 220px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 50%;
-  filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255,255,255,0.2);
+  margin-bottom: 40px;
 }
 
 .top {
@@ -80,60 +57,46 @@ body {
 .top h1 {
   font-size: 42px;
   font-weight: 800;
-  letter-spacing: 1px;
 }
 
 .subtitle {
-  margin-top: 6px;
   opacity: 0.7;
+  margin-top: 5px;
 }
 
-.search-box {
+.search-box,
+.quick-buttons {
   display: flex;
   gap: 12px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+input,
+button {
+  border: none;
+  border-radius: 18px;
+  color: white;
 }
 
 input {
   flex: 1;
   padding: 15px;
-
   background: rgba(255,255,255,0.08);
-
   border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 18px;
-
   outline: none;
-
-  color: white;
-  font-size: 16px;
-
-  backdrop-filter: blur(15px);
-}
-
-input::placeholder {
-  color: rgba(255,255,255,0.55);
 }
 
 button {
-  padding: 15px 20px;
-  border: none;
-  border-radius: 18px;
-
+  padding: 14px 18px;
   background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-
-  color: white;
-  font-weight: bold;
-
   cursor: pointer;
-
-  box-shadow: 0 5px 20px rgba(59,130,246,0.45);
-
-  transition: 0.25s;
+  font-weight: bold;
+  transition: 0.2s;
 }
 
 button:hover {
-  transform: translateY(-2px) scale(1.03);
+  transform: scale(1.05);
 }
 
 .weather-card {
@@ -142,7 +105,6 @@ button:hover {
 
 .weather-card img {
   width: 140px;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
 }
 
 .city {
@@ -150,43 +112,74 @@ button:hover {
   font-weight: 700;
 }
 
-.description {
-  opacity: 0.75;
-  text-transform: capitalize;
-  margin-top: 4px;
-}
-
 .temp {
   font-size: 82px;
-  font-weight: 800;
-  margin: 10px 0;
+  font-weight: bold;
+}
+
+.description {
+  opacity: 0.8;
+}
+
+.stats,
+.extra-grid,
+.forecast-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .stats {
-  display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 25px;
 }
 
-.stat {
+.extra-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.forecast-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat,
+.glass-box,
+.forecast-item {
   background: rgba(255,255,255,0.08);
-
   border: 1px solid rgba(255,255,255,0.12);
-
   backdrop-filter: blur(15px);
-
   padding: 18px;
   border-radius: 22px;
+  text-align: center;
+}
+
+.forecast-title {
+  margin-top: 30px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .label {
-  font-size: 13px;
   opacity: 0.7;
+  font-size: 13px;
 }
 
 .value {
-  margin-top: 8px;
   font-size: 20px;
   font-weight: bold;
+  margin-top: 8px;
+}
+
+.particle {
+  position: fixed;
+  top: -10px;
+  width: 2px;
+  height: 15px;
+  background: rgba(255,255,255,0.5);
+  animation: rain linear infinite;
+}
+
+@keyframes rain {
+  to {
+    transform: translateY(110vh);
+  }
 }
