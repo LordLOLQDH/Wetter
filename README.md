@@ -1,6 +1,6 @@
-# 🌤 Wetter App
+# Ultra Weather X
 
-Eine moderne Wetter-App mit HTML, CSS und JavaScript.
+Eine moderne Premium-Wetter-App mit HTML, CSS und JavaScript.
 
 ## Features
 
@@ -10,19 +10,14 @@ Eine moderne Wetter-App mit HTML, CSS und JavaScript.
 - Wetter-Icons
 - Windgeschwindigkeit
 - Luftfeuchtigkeit
-- Modernes Glassmorphism-Design
-
-## Vorschau
-
-Die App nutzt die OpenWeather API.
+- Glassmorphism-Design
+- Dynamische Hintergründe
+- Quick Buttons
+- Live Uhr
 
 ## Live Website
 
-Sobald GitHub Pages aktiviert ist:
-
-```txt
 https://lordlolqdh.github.io/Wetter/
-```
 
 ## Technologien
 
@@ -30,16 +25,3 @@ https://lordlolqdh.github.io/Wetter/
 - CSS
 - JavaScript
 - OpenWeather API
-
-## GitHub Pages aktivieren
-
-1. Repository öffnen
-2. Settings → Pages
-3. Deploy from a branch auswählen
-4. Branch `main` auswählen
-5. Save drücken
-
-## API
-
-API von:
-https://openweathermap.org/api
