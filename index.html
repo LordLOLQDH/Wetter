@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wetter App</title>
+  <title>Ultra Weather</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>🌤 Wetter App</h1>
+<div class="bg"></div>
+
+<div class="app">
+  <div class="top">
+    <h1>Ultra Weather</h1>
+    <p class="subtitle">Modern Weather Dashboard</p>
+  </div>
 
   <div class="search-box">
-    <input type="text" id="city" placeholder="Stadt eingeben">
+    <input type="text" id="city" placeholder="Stadt suchen...">
     <button onclick="getWeather()">Suchen</button>
   </div>
 
-  <div id="weather"></div>
+  <div id="weather" class="weather-card"></div>
 </div>
 
 <script src="script.js"></script>
