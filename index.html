@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultra Weather</title>
+  <title>Ultra Weather X</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,17 +11,40 @@
 <div class="bg"></div>
 
 <div class="app">
+
   <div class="top">
-    <h1>Ultra Weather</h1>
-    <p class="subtitle">Modern Weather Dashboard</p>
+    <h1>Ultra Weather X</h1>
+    <p class="subtitle">Next Gen Weather Dashboard</p>
   </div>
 
   <div class="search-box">
     <input type="text" id="city" placeholder="Stadt suchen...">
-    <button onclick="getWeather()">Suchen</button>
+    <button onclick="getWeather()">🔍</button>
+  </div>
+
+  <div class="quick-buttons">
+    <button onclick="setCity('Berlin')">Berlin</button>
+    <button onclick="setCity('London')">London</button>
+    <button onclick="setCity('Tokyo')">Tokyo</button>
+    <button onclick="toggleTheme()">🌙</button>
   </div>
 
   <div id="weather" class="weather-card"></div>
+
+  <div class="extra-grid">
+
+    <div class="glass-box">
+      <h3>⚡ Status</h3>
+      <p id="statusText">Live Wetterdaten aktiv</p>
+    </div>
+
+    <div class="glass-box">
+      <h3>🕒 Uhrzeit</h3>
+      <p id="clock"></p>
+    </div>
+
+  </div>
+
 </div>
 
 <script src="script.js"></script>
