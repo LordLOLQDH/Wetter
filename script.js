@@ -23,9 +23,7 @@ function showSuggestions() {
     return;
   }
 
-  const filtered = cityList.filter(city =>
-    city.toLowerCase().startsWith(input)
-  );
+  const filtered = cityList.filter(city => city.toLowerCase().startsWith(input));
 
   if(filtered.length === 0) {
     suggestions.style.display = 'none';
@@ -92,11 +90,15 @@ async function getWeather() {
 
 function saveFavorite() {
 
-  const city = document.getElementById('city').value;
+  const city = document.getElementById('city').value.trim();
 
   if(!city) return;
 
-  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities'));
+
+  if(!Array.isArray(favorites)) {
+    favorites = [];
+  }
 
   if(!favorites.includes(city)) {
     favorites.push(city);
@@ -106,7 +108,7 @@ function saveFavorite() {
 
   renderFavorites();
 
-  document.getElementById('statusText').innerText = city + ' gespeichert';
+  document.getElementById('statusText').innerText = favorites.length + ' Favoriten gespeichert';
 }
 
 function loadFavorites() {
@@ -117,19 +119,29 @@ function renderFavorites() {
 
   const favoriteElement = document.getElementById('favoriteCity');
 
-  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities'));
+
+  if(!Array.isArray(favorites)) {
+    favorites = [];
+  }
 
   if(favorites.length === 0) {
     favoriteElement.innerHTML = 'Keine gespeichert';
     return;
   }
 
-  favoriteElement.innerHTML = favorites.map(city => `
-    <div style="margin-bottom:10px">
-      <button onclick="openFavorite('${city}')">⭐ ${city}</button>
-      <button onclick="removeFavorite('${city}')">🗑</button>
-    </div>
-  `).join('');
+  let html = '';
+
+  favorites.forEach(city => {
+    html += `
+      <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+        <button onclick="openFavorite('${city}')">⭐ ${city}</button>
+        <button onclick="removeFavorite('${city}')">🗑</button>
+      </div>
+    `;
+  });
+
+  favoriteElement.innerHTML = html;
 }
 
 function openFavorite(city) {
@@ -139,7 +151,11 @@ function openFavorite(city) {
 
 function removeFavorite(city) {
 
-  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities'));
+
+  if(!Array.isArray(favorites)) {
+    favorites = [];
+  }
 
   favorites = favorites.filter(f => f !== city);
 
