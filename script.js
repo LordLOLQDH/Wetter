@@ -15,9 +15,7 @@ window.onload = () => {
 };
 
 function showSuggestions() {
-
   const input = document.getElementById('city').value.toLowerCase();
-
   const suggestions = document.getElementById('suggestions');
 
   if(input.length === 0) {
@@ -35,9 +33,7 @@ function showSuggestions() {
   }
 
   suggestions.innerHTML = filtered.map(city => `
-    <button style="margin:5px" onclick="selectSuggestion('${city}')">
-      ${city}
-    </button>
+    <button style="margin:5px" onclick="selectSuggestion('${city}')">${city}</button>
   `).join('');
 
   suggestions.style.display = 'block';
@@ -98,40 +94,56 @@ function saveFavorite() {
 
   const city = document.getElementById('city').value;
 
-  localStorage.setItem('favoriteCity', city);
+  if(!city) return;
 
-  const favoriteElement = document.getElementById('favoriteCity');
+  localStorage.setItem('favoriteCity', JSON.stringify(city));
 
-  if(favoriteElement) {
-    favoriteElement.innerHTML = `<button onclick="openFavorite()">${city}</button>`;
-  }
+  renderFavorite(city);
 
-  document.getElementById('statusText').innerText = 'Favorit gespeichert';
+  document.getElementById('statusText').innerText = city + ' gespeichert';
 }
 
 function loadFavorite() {
 
-  const fav = localStorage.getItem('favoriteCity');
+  const saved = localStorage.getItem('favoriteCity');
 
-  if(fav) {
-    document.getElementById('city').value = fav;
+  if(!saved) return;
 
-    const favoriteElement = document.getElementById('favoriteCity');
+  const city = JSON.parse(saved);
 
-    if(favoriteElement) {
-      favoriteElement.innerHTML = `<button onclick="openFavorite()">${fav}</button>`;
-    }
-  }
+  renderFavorite(city);
+}
+
+function renderFavorite(city) {
+
+  const favoriteElement = document.getElementById('favoriteCity');
+
+  favoriteElement.innerHTML = `
+    <button onclick="openFavorite()">⭐ ${city}</button>
+    <button onclick="removeFavorite()" style="margin-top:8px">🗑 Entfernen</button>
+  `;
 }
 
 function openFavorite() {
 
-  const fav = localStorage.getItem('favoriteCity');
+  const saved = localStorage.getItem('favoriteCity');
 
-  if(fav) {
-    document.getElementById('city').value = fav;
-    getWeather();
-  }
+  if(!saved) return;
+
+  const city = JSON.parse(saved);
+
+  document.getElementById('city').value = city;
+
+  getWeather();
+}
+
+function removeFavorite() {
+
+  localStorage.removeItem('favoriteCity');
+
+  document.getElementById('favoriteCity').innerHTML = 'Keine gespeichert';
+
+  document.getElementById('statusText').innerText = 'Favorit entfernt';
 }
 
 function setCity(city) {
