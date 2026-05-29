@@ -50,21 +50,53 @@ async function getWeather() {
       <div class="stat"><div class="label">Land</div><div class="value">${data.sys.country}</div></div>
     </div>
 
-    <button onclick="saveFavorite()" style="margin-top:20px">Favorit speichern</button>
+    <button onclick="saveFavorite()" style="margin-top:20px">⭐ Favorit speichern</button>
   `;
 }
 
 function saveFavorite() {
+
   const city = document.getElementById('city').value;
+
   localStorage.setItem('favoriteCity', city);
+
+  const favoriteElement = document.getElementById('favoriteCity');
+
+  if(favoriteElement) {
+
+    favoriteElement.innerHTML = `
+      <button onclick="openFavorite()">${city}</button>
+    `;
+  }
+
   document.getElementById('statusText').innerText = 'Favorit gespeichert';
 }
 
 function loadFavorite() {
+
+  const fav = localStorage.getItem('favoriteCity');
+
+  if(fav) {
+
+    document.getElementById('city').value = fav;
+
+    const favoriteElement = document.getElementById('favoriteCity');
+
+    if(favoriteElement) {
+      favoriteElement.innerHTML = `
+        <button onclick="openFavorite()">${fav}</button>
+      `;
+    }
+  }
+}
+
+function openFavorite() {
+
   const fav = localStorage.getItem('favoriteCity');
 
   if(fav) {
     document.getElementById('city').value = fav;
+    getWeather();
   }
 }
 
