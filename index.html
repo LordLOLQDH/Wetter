@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ultra Weather X</title>
+  <title>Weather App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
 <div class="app">
 
   <div class="top">
-    <h1>Ultra Weather X</h1>
-    <p class="subtitle">Next Gen Weather Dashboard</p>
+    <h1>Weather App</h1>
+    <p class="subtitle">Live Wetter weltweit</p>
   </div>
 
   <div class="search-box">
@@ -27,6 +27,7 @@
     >
 
     <button onclick="getWeather()">🔍</button>
+    <button onclick="useCurrentLocation()">📍</button>
   </div>
 
   <div id="suggestions" class="glass-box" style="display:none; margin-bottom:20px;"></div>
@@ -53,8 +54,8 @@
     </div>
 
     <div class="glass-box">
-      <h3>⭐ Favorit</h3>
-      <p id="favoriteCity">Keine gespeichert</p>
+      <h3>⭐ Favoriten</h3>
+      <div id="favoriteCity">Keine gespeichert</div>
     </div>
 
   </div>
