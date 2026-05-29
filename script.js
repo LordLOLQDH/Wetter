@@ -8,7 +8,7 @@ const cityList = [
 ];
 
 window.onload = () => {
-  loadFavorite();
+  loadFavorites();
   updateClock();
   setInterval(updateClock, 1000);
   getWeatherByLocation();
@@ -86,7 +86,7 @@ async function getWeather() {
       <div class="stat"><div class="label">Land</div><div class="value">${data.sys.country}</div></div>
     </div>
 
-    <button onclick="saveFavorite()" style="margin-top:20px">⭐ Favorit speichern</button>
+    <button onclick="saveFavorite()" style="margin-top:20px">⭐ Zu Favoriten</button>
   `;
 }
 
@@ -96,54 +96,62 @@ function saveFavorite() {
 
   if(!city) return;
 
-  localStorage.setItem('favoriteCity', JSON.stringify(city));
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
 
-  renderFavorite(city);
+  if(!favorites.includes(city)) {
+    favorites.push(city);
+  }
+
+  localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+
+  renderFavorites();
 
   document.getElementById('statusText').innerText = city + ' gespeichert';
 }
 
-function loadFavorite() {
-
-  const saved = localStorage.getItem('favoriteCity');
-
-  if(!saved) return;
-
-  const city = JSON.parse(saved);
-
-  renderFavorite(city);
+function loadFavorites() {
+  renderFavorites();
 }
 
-function renderFavorite(city) {
+function renderFavorites() {
 
   const favoriteElement = document.getElementById('favoriteCity');
 
-  favoriteElement.innerHTML = `
-    <button onclick="openFavorite()">⭐ ${city}</button>
-    <button onclick="removeFavorite()" style="margin-top:8px">🗑 Entfernen</button>
-  `;
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+
+  if(favorites.length === 0) {
+    favoriteElement.innerHTML = 'Keine gespeichert';
+    return;
+  }
+
+  favoriteElement.innerHTML = favorites.map(city => `
+    <div style="margin-bottom:10px">
+      <button onclick="openFavorite('${city}')">⭐ ${city}</button>
+      <button onclick="removeFavorite('${city}')">🗑</button>
+    </div>
+  `).join('');
 }
 
-function openFavorite() {
-
-  const saved = localStorage.getItem('favoriteCity');
-
-  if(!saved) return;
-
-  const city = JSON.parse(saved);
-
+function openFavorite(city) {
   document.getElementById('city').value = city;
-
   getWeather();
 }
 
-function removeFavorite() {
+function removeFavorite(city) {
 
-  localStorage.removeItem('favoriteCity');
+  let favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
 
-  document.getElementById('favoriteCity').innerHTML = 'Keine gespeichert';
+  favorites = favorites.filter(f => f !== city);
 
-  document.getElementById('statusText').innerText = 'Favorit entfernt';
+  localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+
+  renderFavorites();
+
+  document.getElementById('statusText').innerText = city + ' entfernt';
+}
+
+function useCurrentLocation() {
+  getWeatherByLocation();
 }
 
 function setCity(city) {
