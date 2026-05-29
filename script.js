@@ -2,12 +2,52 @@ const apiKey = "e1a724f1a23f76afc358559c1649c5dd";
 
 let darkMode = true;
 
+const cityList = [
+  'Berlin','Hamburg','München','Köln','Frankfurt','Stuttgart','Tokyo','London','Paris','New York',
+  'Los Angeles','Madrid','Rome','Mailand','Como','Düsseldorf','Dortmund','Leipzig','Oslo','Stockholm'
+];
+
 window.onload = () => {
   loadFavorite();
   updateClock();
   setInterval(updateClock, 1000);
   getWeatherByLocation();
 };
+
+function showSuggestions() {
+
+  const input = document.getElementById('city').value.toLowerCase();
+
+  const suggestions = document.getElementById('suggestions');
+
+  if(input.length === 0) {
+    suggestions.style.display = 'none';
+    return;
+  }
+
+  const filtered = cityList.filter(city =>
+    city.toLowerCase().startsWith(input)
+  );
+
+  if(filtered.length === 0) {
+    suggestions.style.display = 'none';
+    return;
+  }
+
+  suggestions.innerHTML = filtered.map(city => `
+    <button style="margin:5px" onclick="selectSuggestion('${city}')">
+      ${city}
+    </button>
+  `).join('');
+
+  suggestions.style.display = 'block';
+}
+
+function selectSuggestion(city) {
+  document.getElementById('city').value = city;
+  document.getElementById('suggestions').style.display = 'none';
+  getWeather();
+}
 
 async function getWeather() {
 
@@ -63,10 +103,7 @@ function saveFavorite() {
   const favoriteElement = document.getElementById('favoriteCity');
 
   if(favoriteElement) {
-
-    favoriteElement.innerHTML = `
-      <button onclick="openFavorite()">${city}</button>
-    `;
+    favoriteElement.innerHTML = `<button onclick="openFavorite()">${city}</button>`;
   }
 
   document.getElementById('statusText').innerText = 'Favorit gespeichert';
@@ -77,15 +114,12 @@ function loadFavorite() {
   const fav = localStorage.getItem('favoriteCity');
 
   if(fav) {
-
     document.getElementById('city').value = fav;
 
     const favoriteElement = document.getElementById('favoriteCity');
 
     if(favoriteElement) {
-      favoriteElement.innerHTML = `
-        <button onclick="openFavorite()">${fav}</button>
-      `;
+      favoriteElement.innerHTML = `<button onclick="openFavorite()">${fav}</button>`;
     }
   }
 }
