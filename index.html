@@ -18,9 +18,18 @@
   </div>
 
   <div class="search-box">
-    <input type="text" id="city" placeholder="Stadt suchen...">
+    <input
+      type="text"
+      id="city"
+      placeholder="Stadt suchen..."
+      autocomplete="off"
+      oninput="showSuggestions()"
+    >
+
     <button onclick="getWeather()">🔍</button>
   </div>
+
+  <div id="suggestions" class="glass-box" style="display:none; margin-bottom:20px;"></div>
 
   <div class="quick-buttons">
     <button onclick="setCity('Berlin')">Berlin</button>
@@ -41,6 +50,11 @@
     <div class="glass-box">
       <h3>🕒 Uhrzeit</h3>
       <p id="clock"></p>
+    </div>
+
+    <div class="glass-box">
+      <h3>⭐ Favorit</h3>
+      <p id="favoriteCity">Keine gespeichert</p>
     </div>
 
   </div>
